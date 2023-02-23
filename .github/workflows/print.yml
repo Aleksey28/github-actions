@@ -1,4 +1,5 @@
 name: print
+run-name: print
 on: push
 env:
   continue: true

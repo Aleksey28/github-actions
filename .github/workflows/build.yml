@@ -1,6 +1,9 @@
 name: build
 run-name: build
 on: push
+env:
+  continue: true
+  time: 3
 jobs:
   job1:
     runs-on: ubuntu-latest
@@ -16,3 +19,6 @@ jobs:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
       - run: build
+      - continue-on-error: ${{ fromJSON(env.continue) }}
+        timeout-minutes: ${{ fromJSON(env.time) }}
+        run: echo was continued in ${{ fromJSON(env.time) }} minutes after error

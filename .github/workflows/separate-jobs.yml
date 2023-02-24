@@ -1,0 +1,15 @@
+name: Separate jobs
+run-name: ${{ github.actor }} is testing separate jobs
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test-group: [1, 2, 3]
+    env:
+      TEST_FRAGMENTS_COUNT: 3
+      CURRENT_TEST_FRAGMENT_NUMBER: ${{ strategy.job-index }}
+    steps:
+      - name: "Check envs"
+        run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"

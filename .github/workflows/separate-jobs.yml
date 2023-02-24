@@ -9,7 +9,7 @@ jobs:
         test-group: [1, 2, 3]
     env:
       TEST_FRAGMENTS_COUNT: 3
-      CURRENT_TEST_FRAGMENT_NUMBER: ${{ strategy.job-index }}
+      CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     steps:
       - name: "Check envs"
         run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"

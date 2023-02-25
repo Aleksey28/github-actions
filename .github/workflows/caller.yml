@@ -8,6 +8,6 @@ on:
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
-    uses: ./.github/workflows/workflow-2.yml
+    uses: ./.github/workflows/called.yml
     with:
       test-group-count: 3

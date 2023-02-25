@@ -15,4 +15,7 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          echo "### List files was showed" >> $GITHUB_STEP_SUMMARY
+      - name: echo "🍏 This job's status is ${{ job.status }}."
+        run: |
+          echo "### Job completed" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,18 @@
+on:
+  workflow_call:
+    inputs:
+      test-group-count:
+        required: true
+        type: number
+jobs:
+  reusable_workflow_job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test-group: [1, 2, 3]
+    env:
+      TEST_FRAGMENTS_COUNT: ${{ inputs.test-group-count }}
+      CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
+    steps:
+      - name: "Check envs"
+        run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"

@@ -1,0 +1,13 @@
+name: called
+run-name: ${{ github.actor }} is learning reusable workflows
+on:
+  workflow_run:
+    workflows: [GitHub Actions Demo]
+    types:
+      - completed
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    uses: ./.github/workflows/workflow-2.yml
+    with:
+      test-group-count: 3

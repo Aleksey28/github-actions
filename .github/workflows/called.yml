@@ -28,6 +28,7 @@ jobs:
         run: echo "${{steps.output.outputs.test}}"
 
   check:
+    runs-on: ubuntu-latest
     needs: reusable_workflow_job
     steps:
       - name: Show output

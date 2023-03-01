@@ -14,7 +14,7 @@ jobs:
       TEST_FRAGMENTS_COUNT: ${{ inputs.test-group-count }}
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
-      output: ${{ steps.output.outputs.test }}
+      output-${{ matrix.test-group }}: ${{ steps.output.outputs.test }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"

@@ -13,9 +13,22 @@ jobs:
     env:
       TEST_FRAGMENTS_COUNT: ${{ inputs.test-group-count }}
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
+    outputs:
+      output: ${{ steps.output.outputs.test }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: "Check envs"
         run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"
+      - name: Set output
+        id: output
+        run: echo "test=hello" >> "$GITHUB_OUTPUT"
+      - name: Show output
+        run: echo "${{steps.output.outputs.test}}"
+
+  check:
+    needs: reusable_workflow_job
+    steps:
+      - name: Show output
+        run: echo "${{needs.reusable_workflow_job.outputs}}"

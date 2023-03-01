@@ -14,7 +14,7 @@ jobs:
       TEST_FRAGMENTS_COUNT: ${{ inputs.test-group-count }}
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
-      output-${{ matrix.test-group }}: ${{ steps.output.outputs.test }}
+      execution-failed: ${{ steps.execution-result.outputs.failed }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -26,10 +26,18 @@ jobs:
         run: echo "test=hello" >> "$GITHUB_OUTPUT"
       - name: Show output
         run: echo "${{steps.output.outputs.test}}"
+      - name: Set failed flag
+        id: execution-result
+        run: echo "failed=true" >> "$GITHUB_OUTPUT"
+        if: failure() || cancelled()
 
   check:
     runs-on: ubuntu-latest
     needs: reusable_workflow_job
     steps:
-      - name: Show output
-        run: echo "${{toJSON(needs.reusable_workflow_job.outputs)}}"
+      - name: Show success
+        run: echo "Success"
+        if: ${{ !needs.reusable_workflow_job.execution-failed }}
+      - name: Show error
+        run: echo "Error"
+        if: ${{ needs.reusable_workflow_job.execution-failed }}

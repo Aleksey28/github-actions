@@ -32,4 +32,4 @@ jobs:
     needs: reusable_workflow_job
     steps:
       - name: Show output
-        run: echo "${{needs.reusable_workflow_job.outputs}}"
+        run: echo "${{toJSON(needs.reusable_workflow_job.outputs)}}"

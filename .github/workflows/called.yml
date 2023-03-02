@@ -15,6 +15,7 @@ jobs:
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
       execution-failed: ${{ steps.execution-result.outputs.failed }}
+      all-results: ${{ steps.all-execution-result.outputs.all-results }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -26,12 +27,19 @@ jobs:
         run: echo "test=hello" >> "$GITHUB_OUTPUT"
       - name: Show output
         run: echo "${{steps.output.outputs.test}}"
+      - name: Rise error
+        run: exit(1)
       - name: Set failed flag
         id: execution-result
         run: echo "failed=true" >> "$GITHUB_OUTPUT"
         if: failure() || cancelled()
+      - name: Set all-execution-result
+        id: all-execution-result
+        run: echo "all-results=${{ steps.all-execution-result.outputs.all-results }} ${{ steps.execution-result.outputs.failed || false }}" >> "$GITHUB_OUTPUT"
+        if: always()
 
   check:
+    if: always()
     runs-on: ubuntu-latest
     needs: reusable_workflow_job
     steps:
@@ -41,3 +49,5 @@ jobs:
       - name: Show error
         run: echo "Error"
         if: ${{ needs.reusable_workflow_job.execution-failed }}
+      - name: Show error
+        run: echo "Error ${{needs.reusable_workflow_job.all-results}}"

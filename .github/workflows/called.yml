@@ -44,6 +44,14 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: console.log(context)
+      - name: View context attributes
+        if: always()
+        run: echo hello > matrix.txt
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: my-artifact
+          path: matrix.txt
 
   check:
     runs-on: ubuntu-latest

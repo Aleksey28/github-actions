@@ -15,7 +15,7 @@ jobs:
       TEST_FRAGMENTS_COUNT: ${{ inputs.test-group-count }}
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
-      failed: ${{ steps.execution-result.outputs.failed || false }}
+      failed: ${{ steps.execution-result.outputs.failed || 'false' }}
       all-results: ${{ steps.all-execution-result.outputs.all-results }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -37,7 +37,7 @@ jobs:
         if: failure() || cancelled()
       - name: Set all-execution-result
         id: all-execution-result
-        run: echo "all-results=${{ steps.all-execution-result.outputs.all-results }} ${{ steps.execution-result.outputs.failed || false }}" >> "$GITHUB_OUTPUT"
+        run: echo "all-results=${{ jobs.reusable_workflow_job.outputs.all-results }} ${{ steps.execution-result.outputs.failed || false }}" >> "$GITHUB_OUTPUT"
         if: always()
 
   check:

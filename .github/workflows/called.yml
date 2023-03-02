@@ -46,7 +46,7 @@ jobs:
           script: console.log(context)
       - name: View context attributes
         if: always()
-        run: echo hello > matrix.txt
+        run: echo ${{steps.execution-result.outputs.failed}} > matrix.txt
       - uses: actions/upload-artifact@v3
         if: always()
         with:

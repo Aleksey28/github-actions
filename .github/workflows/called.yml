@@ -51,7 +51,7 @@ jobs:
           matrix-step-name: ${{ github.job }}
           matrix-key: ${{ matrix.platform }}
           outputs: |-
-            failed: ${{ steps.execution-result.outputs.failed || false }}
+            image: 'Test'
 
   read:
     runs-on: ubuntu-latest
@@ -70,7 +70,7 @@ jobs:
     needs: [read]
     steps:
       - name: Show matrix results
-        run: echo "Errors ${{needs.read.outputs.results}}"
+        run: echo "Errors ${{fromJSON(needs.read.outputs.results)}}"
       # - name: Show success
       #   run: echo "Success"
       #   if: ${{ !fromJSON(needs.build.failed) }}

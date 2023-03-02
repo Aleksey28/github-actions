@@ -39,6 +39,11 @@ jobs:
         id: all-execution-result
         run: echo "all-results=${{ steps.all-execution-result.outputs.all-results }} ${{ steps.execution-result.outputs.failed || false }}" >> "$GITHUB_OUTPUT"
         if: always()
+      - name: View context attributes
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: console.log(context)
 
   check:
     runs-on: ubuntu-latest

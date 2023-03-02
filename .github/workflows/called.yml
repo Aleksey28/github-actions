@@ -37,7 +37,7 @@ jobs:
         if: failure() || cancelled()
       - name: Set all-execution-result
         id: all-execution-result
-        run: echo "all-results=${{ jobs.reusable_workflow_job.outputs.all-results }} ${{ steps.execution-result.outputs.failed || false }}" >> "$GITHUB_OUTPUT"
+        run: echo "all-results=${{ steps.all-execution-result.outputs.all-results }} ${{ steps.execution-result.outputs.failed || false }}" >> "$GITHUB_OUTPUT"
         if: always()
 
   check:

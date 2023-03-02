@@ -50,7 +50,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: my-artifact
+          name: my-artifact-${{matrix.test-group}}
           path: matrix.txt
 
   check:

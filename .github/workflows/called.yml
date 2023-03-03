@@ -46,7 +46,7 @@ jobs:
           matrix-step-name: ${{ github.job }}
           matrix-key: ${{ matrix.test-group }}
           outputs: |-
-            '${{ steps.execution-result.outputs.failed || 'false' }}'
+            failed: '${{ steps.execution-result.outputs.failed || 'false' }}'
 
   read:
     runs-on: ubuntu-latest
@@ -58,7 +58,7 @@ jobs:
           matrix-step-name: build
 
     outputs:
-      result: "${{ steps.read.outputs.result }}"
+      result: "${{ contains(steps.read.outputs.result, 'true') }}"
 
   check:
     runs-on: ubuntu-latest
@@ -66,8 +66,8 @@ jobs:
     steps:
       - name: Show matrix results
         run: echo "Errors ${{needs.read.outputs.result}}"
-      # - name: Show status
-      #   run: echo "status - ${{fromJSON('["success", "failure"]')[fromJSON(needs.read.outputs.result)] }}"
+      - name: Show status
+        run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.read.outputs.result, 'true')] }}"
       # - name: Show success
       #   run: echo "Success"
       #   if: ${{ !fromJSON(needs.build.failed) }}

@@ -34,7 +34,7 @@ jobs:
         if: ${{ matrix.test-group == 2 || matrix.test-group == 3 }}
       - name: Set failed flag
         id: handle-failure
-        run: echo "test_${{ matrix.test-group }}='{ \"failed\": \"true\" }'" >> "$GITHUB_OUTPUT"
+        run: echo "test_${{ matrix.test-group }}={failed:true}" >> "$GITHUB_OUTPUT"
         if: failure() || cancelled()
       # - name: View context attributes
       #   if: always()

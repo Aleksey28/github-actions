@@ -32,7 +32,7 @@ jobs:
         run: echo "${{steps.output.outputs.test}}"
       - name: Rise error
         run: exit(1)
-        if: ${{ matrix.test-group == 2 || matrix.test-group == 3 }}
+        if: ${{ matrix.test-group == 2 }}
       - name: Set failed flag
         id: handle-failure-flag
         run: echo "failed=true" >> "$GITHUB_OUTPUT"

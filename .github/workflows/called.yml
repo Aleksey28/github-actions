@@ -67,7 +67,7 @@ jobs:
       - name: Show matrix results
         run: echo "Errors ${{needs.read.outputs.result}}"
       - name: Show status
-        run: echo "status - ${{fromJSON('["success", "failure"]')[needs.read.outputs.result] }}"
+        run: echo "status - ${{fromJSON('["success", "failure"]')[fromJSON(needs.read.outputs.result)] }}"
       # - name: Show success
       #   run: echo "Success"
       #   if: ${{ !fromJSON(needs.build.failed) }}

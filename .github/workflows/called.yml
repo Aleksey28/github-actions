@@ -58,7 +58,7 @@ jobs:
           matrix-step-name: build
 
     outputs:
-      result: "${{ contains(steps.read.outputs.result, 'true') }}"
+      result: "${{ steps.read.outputs.result }}"
 
   check:
     runs-on: ubuntu-latest

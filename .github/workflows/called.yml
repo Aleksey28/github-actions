@@ -18,6 +18,7 @@ jobs:
       test-1-failed: "${{ steps.handle-failure.outputs.test_failed_1 }}"
       test-3-failed: "${{ steps.handle-failure.outputs.test_failed_3 }}"
       test-2-failed: "${{ steps.handle-failure.outputs.test_failed_2 }}"
+      failed: "${{ steps.handle-failure-flag.outputs.failed }}"
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -32,6 +33,10 @@ jobs:
       - name: Rise error
         run: exit(1)
         if: ${{ matrix.test-group == 2 || matrix.test-group == 3 }}
+      - name: Set failed flag
+        id: handle-failure-flag
+        run: echo "failed=true" >> "$GITHUB_OUTPUT"
+        if: failure() || cancelled()
       - name: Set failed flag
         id: handle-failure
         run: echo "test_${{ matrix.test-group }}_failed=true" >> "$GITHUB_OUTPUT"
@@ -74,8 +79,6 @@ jobs:
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs, 'true')] }}"
       - name: Show status needs.build.outputs.*
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs.*, 'true')] }}"
-      - name: Show status needs.build.outputs.test_failed_*
-        run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs.test_failed_*, 'true')] }}"
       - name: Show status
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(toJSON(needs.build.outputs), 'true')] }}"
       # - name: Show success

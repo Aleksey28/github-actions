@@ -87,7 +87,7 @@ jobs:
         id: status
         with:
           script: |
-            const statuses         = JSON.parse('${{ toJSON(needs.build.outputs.*) }}');
+            const statuses         = '${{ toJSON(needs.build.outputs.*) }}';
             const priorityStatuses = [ 'skipped', 'cancelled', 'failure', 'success'];
 
             console.log(statuses);

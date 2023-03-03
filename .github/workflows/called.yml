@@ -41,6 +41,10 @@ jobs:
         id: handle-failure
         run: echo "test_${{ matrix.test-group }}_failed=true" >> "$GITHUB_OUTPUT"
         if: failure() || cancelled()
+      - name: Show context
+        run: echo "github.action_status - ${{ github.action_status }}"
+      - name: Show context
+        run: echo "job.status - ${{ job.status }}"
       # - name: View context attributes
       #   if: always()
       #   uses: actions/github-script@v6

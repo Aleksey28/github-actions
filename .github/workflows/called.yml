@@ -40,7 +40,7 @@ jobs:
       - name: Set failed flag
         id: handle-failure
         run: echo "test_${{ matrix.test-group }}=${{ job.status }}" >> "$GITHUB_OUTPUT"
-        if: failure() || cancelled()
+        if: always()
       - name: Show context
         run: echo "github.action_status - ${{ github.action_status }}"
         if: always()

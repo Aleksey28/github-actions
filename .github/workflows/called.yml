@@ -33,10 +33,10 @@ jobs:
       - name: Rise error
         run: exit(1)
         if: ${{ matrix.test-group == 2 || matrix.test-group == 3 }}
-      - name: Set failed flag
-        id: handle-failure-flag
-        run: echo "failed=true" >> "$GITHUB_OUTPUT"
-        if: failure() || cancelled()
+      # - name: Set failed flag
+      #   id: handle-failure-flag
+      #   run: echo "failed=true" >> "$GITHUB_OUTPUT"
+      #   if: failure() || cancelled()
       - name: Set failed flag
         id: handle-failure
         run: echo "test_${{ matrix.test-group }}=${{ job.status }}" >> "$GITHUB_OUTPUT"

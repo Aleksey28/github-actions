@@ -15,9 +15,9 @@ jobs:
       TEST_FRAGMENTS_COUNT: ${{ inputs.test-group-count }}
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
-      test-1-failed: "${{ steps.handle-failure.outputs.test_1 }}"
-      test-3-failed: "${{ steps.handle-failure.outputs.test_3 }}"
-      test-2-failed: "${{ steps.handle-failure.outputs.test_2 }}"
+      test-1-failed: "${{ steps.handle-failure.outputs.test_1_failed }}"
+      test-3-failed: "${{ steps.handle-failure.outputs.test_3_failed }}"
+      test-2-failed: "${{ steps.handle-failure.outputs.test_2_failed }}"
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -34,7 +34,7 @@ jobs:
         if: ${{ matrix.test-group == 2 || matrix.test-group == 3 }}
       - name: Set failed flag
         id: handle-failure
-        run: echo "test_${{ matrix.test-group }}={failed:true}" >> "$GITHUB_OUTPUT"
+        run: echo "test_${{ matrix.test-group }}_failed=true" >> "$GITHUB_OUTPUT"
         if: failure() || cancelled()
       # - name: View context attributes
       #   if: always()
@@ -70,10 +70,10 @@ jobs:
         run: echo "Errors ${{needs.build.outputs}}"
       - name: Show matrix results
         run: echo "Errors ${{toJSON(needs.build.outputs)}}"
-      - name: Show matrix results
-        run: echo "Errors ${{toJSON(fromJSON(toJSON(needs.build.outputs)))}}"
       - name: Show status
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs, 'true')] }}"
+      - name: Show status
+        run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs.*, 'true')] }}"
       - name: Show status
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(toJSON(needs.build.outputs), 'true')] }}"
       # - name: Show success

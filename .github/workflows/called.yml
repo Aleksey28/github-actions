@@ -80,12 +80,12 @@ jobs:
       status: "${{ steps.status.outputs.result }}"
     steps:
       - uses: actions/github-script@v6
-        with: console.log(${{ toJSON(needs.test.outputs.*) }})
+        with: console.log('${{ toJSON(needs.build.outputs.*) }}')
       - uses: actions/github-script@v6
         id: status
         with:
           script: |
-            const statuses         = JSON.parse('${{ toJSON(needs.test.outputs.*) }}');
+            const statuses         = JSON.parse('${{ toJSON(needs.build.outputs.*) }}');
             const priorityStatuses = [ 'skipped', 'cancelled', 'failure', 'success'];
 
             return statuses.reduce((res, status) => priorityStatuses.indexOf(res) < priorityStatuses.indexOf(status) ? res : status )

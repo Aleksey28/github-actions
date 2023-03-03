@@ -15,9 +15,9 @@ jobs:
       TEST_FRAGMENTS_COUNT: ${{ inputs.test-group-count }}
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
-      test-1-failed: "${{ steps.handle-failure.outputs.test_1_failed }}"
-      test-3-failed: "${{ steps.handle-failure.outputs.test_3_failed }}"
-      test-2-failed: "${{ steps.handle-failure.outputs.test_2_failed }}"
+      test-1: "${{ steps.handle-failure.outputs.test_1 }}"
+      test-3: "${{ steps.handle-failure.outputs.test_3 }}"
+      test-2: "${{ steps.handle-failure.outputs.test_2 }}"
       failed: "${{ steps.handle-failure-flag.outputs.failed }}"
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -39,7 +39,7 @@ jobs:
         if: failure() || cancelled()
       - name: Set failed flag
         id: handle-failure
-        run: echo "test_${{ matrix.test-group }}_failed=true" >> "$GITHUB_OUTPUT"
+        run: echo "test_${{ matrix.test-group }}=${{ job.status }}" >> "$GITHUB_OUTPUT"
         if: failure() || cancelled()
       - name: Show context
         run: echo "github.action_status - ${{ github.action_status }}"

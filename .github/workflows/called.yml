@@ -90,7 +90,7 @@ jobs:
             const statuses         = ${{ toJSON(needs.build.outputs.*) }};
             const priorityStatuses = [ 'skipped', 'cancelled', 'failure', 'success'];
 
-            console.log(statuses);
+            console.log(statuses.reduce((res, status) => priorityStatuses.indexOf(res) < priorityStatuses.indexOf(status) ? res : status ));
 
   status-show:
     runs-on: ubuntu-latest

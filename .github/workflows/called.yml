@@ -72,6 +72,8 @@ jobs:
         run: echo "Errors ${{toJSON(needs.build.outputs)}}"
       - name: Show status
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs, 'true')] }}"
+      - name: Show status
+        run: echo "status - ${{fromJSON('["success", "failure"]')[contains(toJSON(needs.build.outputs), 'true')] }}"
       # - name: Show success
       #   run: echo "Success"
       #   if: ${{ !fromJSON(needs.build.failed) }}

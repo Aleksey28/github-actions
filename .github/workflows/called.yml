@@ -15,9 +15,9 @@ jobs:
       TEST_FRAGMENTS_COUNT: ${{ inputs.test-group-count }}
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
-      test-1-failed: "${{ steps.handle-failure.outputs.test_1_failed }}"
-      test-2-failed: "${{ steps.handle-failure.outputs.test_2_failed }}"
-      test-3-failed: "${{ steps.handle-failure.outputs.test_3_failed }}"
+      test-1-failed: "${{ fromJSON(steps.handle-failure.outputs.test_1_failed) }}"
+      test-3-failed: "${{ fromJSON(steps.handle-failure.outputs.test_3_failed) }}"
+      test-2-failed: "${{ fromJSON(steps.handle-failure.outputs.test_2_failed) }}"
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"

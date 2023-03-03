@@ -80,7 +80,7 @@ jobs:
       - name: Show status needs.build.outputs.*
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs.*, 'true')] }}"
       - name: Show status needs.build.outputs.failed
-        run: echo "status - ${{fromJSON('["success", "failure"]')[toJSON(needs.build.outputs.failed)] }}"
+        run: echo "status - ${{fromJSON('["success", "failure"]')[fromJSON(needs.build.outputs.failed)] }}"
       # - name: Show success
       #   run: echo "Success"
       #   if: ${{ !fromJSON(needs.build.failed) }}

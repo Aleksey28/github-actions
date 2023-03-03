@@ -58,16 +58,16 @@ jobs:
           matrix-step-name: build
 
     outputs:
-      result: "${{ fromJSON(steps.read.outputs.result) }}"
+      result: "${{ steps.read.outputs.result }}"
 
   check:
     runs-on: ubuntu-latest
     needs: [read]
     steps:
       - name: Show matrix results
-        run: echo "Errors ${{needs.read.outputs.result}}"
+        run: echo "Errors ${{fromJSON(needs.read.outputs.result)}}"
       - name: Show matrix results
-        run: echo "Errors ${{toJSON(needs.read.outputs.result)}}"
+        run: echo "Errors ${{needs.read.outputs.result}}"
       # - name: Show success
       #   run: echo "Success"
       #   if: ${{ !fromJSON(needs.build.failed) }}

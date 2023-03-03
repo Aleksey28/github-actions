@@ -85,7 +85,7 @@ jobs:
         id: status
         with:
           script: |
-            const statuses         = ${{ fromJSON(needs.test.outputs.*) }};
+            const statuses         = JSON.parse('${{ toJSON(needs.test.outputs.*) }}');
             const priorityStatuses = [ 'skipped', 'cancelled', 'failure', 'success'];
 
             return statuses.reduce((res, status) => priorityStatuses.indexOf(res) < priorityStatuses.indexOf(status) ? res : status )

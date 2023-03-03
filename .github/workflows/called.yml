@@ -75,6 +75,8 @@ jobs:
       - name: Show status
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs.*, 'true')] }}"
       - name: Show status
+        run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs.*, fromJSON('true'))] }}"
+      - name: Show status
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(toJSON(needs.build.outputs), 'true')] }}"
       # - name: Show success
       #   run: echo "Success"

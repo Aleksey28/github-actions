@@ -76,9 +76,31 @@ jobs:
   #   outputs:
   #     result: "${{ steps.read.outputs.result }}"
 
+  get-priority-status:
+    needs: build
+    runs-on: ${{ inputs.os }}
+    outputs:
+      status: "${{ steps.status.outputs.result }}"
+    steps:
+      - uses: actions/github-script@v6
+        id: status
+        with:
+          script: |
+            const statuses         = ${{ fromJSON(needs.test.outputs.*) }};
+            const priorityStatuses = [ 'skipped', 'cancelled', 'failure', 'success'];
+
+            return statuses.reduce((res, status) => priorityStatuses.indexOf(res) < priorityStatuses.indexOf(status) ? res : status )
+
+  status-show:
+    runs-on: ubuntu-latest
+    needs: get-priority-status
+    steps:
+      - name: Show matrix results
+        run: echo "Status - ${{needs.get-priority-status.outputs.status}}"
+
   check:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: build
     steps:
       - name: Show matrix results
         run: echo "Errors ${{needs.build.outputs}}"

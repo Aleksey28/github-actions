@@ -83,7 +83,7 @@ jobs:
         id: status
         with:
           script: |
-            const statuses         = [ 'success', 'success', 'failure', 'success'];
+            const statuses         = ${{ needs.test.outputs.* }};
             const priorityStatuses = [ 'skipped', 'cancelled', 'failure', 'success'];
 
             return statuses.reduce((res, status) => priorityStatuses.indexOf(res) < priorityStatuses.indexOf(status) ? res : status )

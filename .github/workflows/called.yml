@@ -70,6 +70,8 @@ jobs:
         run: echo "Errors ${{needs.build.outputs}}"
       - name: Show matrix results
         run: echo "Errors ${{toJSON(needs.build.outputs)}}"
+      - name: Show matrix results
+        run: echo "Errors ${{toJSON(fromJSON(toJSON(needs.build.outputs)))}}"
       - name: Show status
         run: echo "status - ${{fromJSON('["success", "failure"]')[contains(needs.build.outputs, 'true')] }}"
       - name: Show status

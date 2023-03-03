@@ -82,7 +82,7 @@ jobs:
       - name: View context attributes
         uses: actions/github-script@v6
         with:
-          script: console.log(${{ needs.build.outputs.* }})
+          script: console.log(${{ toJSON(needs.build.outputs.*) }})
       - uses: actions/github-script@v6
         id: status
         with:

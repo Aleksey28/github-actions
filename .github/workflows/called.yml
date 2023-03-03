@@ -43,8 +43,10 @@ jobs:
         if: failure() || cancelled()
       - name: Show context
         run: echo "github.action_status - ${{ github.action_status }}"
+        if: always()
       - name: Show context
         run: echo "job.status - ${{ job.status }}"
+        if: always()
       # - name: View context attributes
       #   if: always()
       #   uses: actions/github-script@v6

@@ -1,3 +1,5 @@
+name: Called workflow divided on ${{ inputs.test-group-count }} groups
+
 on:
   workflow_call:
     inputs:

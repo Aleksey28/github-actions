@@ -16,12 +16,16 @@ jobs:
     env:
       TEST_FRAGMENTS_COUNT: 3
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
+    outputs:
+      result: "${{ steps.has-error.outputs || '' }}"
     steps:
       - name: "Check envs"
         run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"
+
       - name: Save result
         if: matrix.test-group == 2
         run: exit 1
+
       - run: echo "Test1 fromJSON - ${{fromJSON('true')}}"
       - run: echo "Test2 fromJSON - ${{fromJSON('' || 'false')}}"
       - run: echo "Test1 expression - ${{fromJSON(env.statuses)[0]}}"
@@ -32,11 +36,18 @@ jobs:
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
+      - name: Has error
+        id: has-error
+        if: failure()
+        shell: bash
+        run: echo "true" >> "$GITHUB_OUTPUT"
+
   set-result-status:
     if: always()
     needs: get-result
     runs-on: ubuntu-latest
     steps:
+      - run: echo "Outputs - ${{needs.get-result.outputs.result}}"
       - name: Exit with error
-        if: ${{ needs.get-result.result != 'success' }}
+        if: ${{ needs.get-result.outputs.result != '' }}
         run: exit 1

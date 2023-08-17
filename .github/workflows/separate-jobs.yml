@@ -26,12 +26,6 @@ jobs:
         if: matrix.test-group == 4
         run: exit 1
 
-      - name: Has error
-        id: has-error
-        if: failure() || cancelled()
-        shell: bash
-        run: echo "value=true" >> "$GITHUB_OUTPUT"
-
       - run: echo "Test1 fromJSON - ${{fromJSON('true')}}"
       - run: echo "Test2 fromJSON - ${{fromJSON('' || 'false')}}"
       - run: echo "Test1 expression - ${{fromJSON(env.statuses)[0]}}"
@@ -41,6 +35,12 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Has error
+        id: has-error
+        if: failure() || cancelled()
+        shell: bash
+        run: echo "value=true" >> "$GITHUB_OUTPUT"
 
   set-result-status:
     if: always()

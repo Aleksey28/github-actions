@@ -9,6 +9,7 @@ env:
 jobs:
   get-result:
     runs-on: ubuntu-latest
+    name: test number - ${{ matrix.test-group }}
     continue-on-error: true
     strategy:
       matrix:

@@ -40,7 +40,7 @@ jobs:
         id: has-error
         if: failure()
         shell: bash
-        run: echo "true" >> "$GITHUB_OUTPUT"
+        run: echo "value=true" >> "$GITHUB_OUTPUT"
 
   set-result-status:
     if: always()

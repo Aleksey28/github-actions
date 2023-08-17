@@ -28,7 +28,7 @@ jobs:
 
       - name: Has error
         id: has-error
-        if: failure()
+        if: failure() || cancelled()
         shell: bash
         run: echo "value=true" >> "$GITHUB_OUTPUT"
 

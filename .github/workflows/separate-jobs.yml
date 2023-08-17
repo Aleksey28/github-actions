@@ -49,5 +49,5 @@ jobs:
     steps:
       - run: echo "Outputs - ${{ !needs.get-result.outputs.has-error && 'success' || 'failure' }}"
       - name: Exit with error
-        if: ${{ needs.get-result.outputs.has-error != '' }}
+        if: ${{ needs.get-result.outputs.has-error }}
         run: exit 1

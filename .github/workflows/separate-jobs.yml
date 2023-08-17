@@ -17,7 +17,7 @@ jobs:
       TEST_FRAGMENTS_COUNT: 3
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
-      result: "${{ steps.has-error.outputs || '' }}"
+      has-error: "${{ steps.has-error.outputs }}"
     steps:
       - name: "Check envs"
         run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"
@@ -47,7 +47,7 @@ jobs:
     needs: get-result
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Outputs - ${{needs.get-result.outputs.result}}"
+      - run: echo "Outputs - ${{needs.get-result.outputs.has-error}}"
       - name: Exit with error
-        if: ${{ needs.get-result.outputs.result != '' }}
+        if: ${{ needs.get-result.outputs.has-error != '' }}
         run: exit 1

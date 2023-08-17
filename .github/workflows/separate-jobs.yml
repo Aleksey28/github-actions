@@ -23,7 +23,7 @@ jobs:
         run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"
 
       - name: Save result
-        if: matrix.test-group == 2
+        if: matrix.test-group == 4
         run: exit 1
 
       - name: Has error

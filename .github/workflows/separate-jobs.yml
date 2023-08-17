@@ -1,8 +1,7 @@
 name: Separate jobs
 run-name: ${{ github.actor }} is testing separate jobs
 on:
-  push:
-    branches: [ master ]
+  workflow_dispatch:
 jobs:
   get-result:
     runs-on: ubuntu-latest

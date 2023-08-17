@@ -1,10 +1,7 @@
 name: called
 run-name: ${{ github.actor }} is learning reusable workflows
 on:
-  workflow_run:
-    workflows: [GitHub Actions Demo]
-    types:
-      - completed
+  workflow_dispatch:
 jobs:
   check-bats-version:
     uses: ./.github/workflows/called.yml

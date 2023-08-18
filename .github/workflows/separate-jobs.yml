@@ -69,5 +69,5 @@ jobs:
 
       - run: echo "Outputs - ${{ steps.result.outputs.value }}"
       - name: Exit with error
-        if: ${{ steps.result.outputs.value }}
+        if: ${{ fromJson(steps.result.outputs.value) }}
         run: exit 1

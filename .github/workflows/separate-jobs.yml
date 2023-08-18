@@ -63,11 +63,11 @@ jobs:
         with:
           name: result
       - run: ls -a
-      - run: echo value=[ $(grep -h "failure" test-group-*.txt | wc -l) == 0 ] && echo "true" || echo "false" >> "$GITHUB_OUTPUT"
+      - run: echo value=$([ $(grep -h "failure" test-group-*.txt | wc -l) == 0 ] && echo "true" || echo "false") >> "$GITHUB_OUTPUT"
         id: result
         shell: bash
 
-      - run: echo "Outputs - ${{ steps.result.outputs && 'success' || 'failure' }}"
+      - run: echo "Outputs - ${{ steps.result.outputs.value && 'success' || 'failure' }}"
       - name: Exit with error
-        if: ${{ steps.result.outputs }}
+        if: ${{ steps.result.outputs.value }}
         run: exit 1

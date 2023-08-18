@@ -23,6 +23,9 @@ jobs:
       - name: "Check envs"
         run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"
 
+      - name: "Check job"
+        run: echo "${{ job }}"
+
       - name: Save result
         if: matrix.test-group == 4
         run: exit 1

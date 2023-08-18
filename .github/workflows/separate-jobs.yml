@@ -63,7 +63,7 @@ jobs:
         with:
           name: result
       - run: ls -a
-      - run: echo value=[ $(grep -h "failure" test-group-*.txt | wc -l) -eq 0 ] && echo "true" || echo "false" >> "$GITHUB_OUTPUT"
+      - run: echo value=[ $(grep -h "failure" test-group-*.txt | wc -l) == 0 ] && echo "true" || echo "false" >> "$GITHUB_OUTPUT"
         id: result
         shell: bash
 

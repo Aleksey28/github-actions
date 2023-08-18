@@ -24,7 +24,7 @@ jobs:
         run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"
 
       - name: "Check job"
-        run: echo "${{ job }}"
+        run: echo "${{ toJson(job) }}"
 
       - name: Save result
         if: matrix.test-group == 4

@@ -63,7 +63,11 @@ jobs:
         with:
           name: result
       - run: ls -a
-      - run: echo "Outputs - ${{ !needs.get-result.outputs.has-error && 'success' || 'failure' }}"
+      - run: grep -h "failure" test-group-*.txt >> "$GITHUB_OUTPUT"
+        id: result
+        shell: bash
+
+      - run: echo "Outputs - ${{ !steps.result.outputs && 'success' || 'failure' }}"
       - name: Exit with error
-        if: ${{ needs.get-result.outputs.has-error }}
+        if: ${{ steps.result.outputs }}
         run: exit 1

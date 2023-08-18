@@ -18,7 +18,7 @@ jobs:
       TEST_FRAGMENTS_COUNT: 3
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
-      has-error: "${{ steps.has-error.outputs.value }}"
+      has-error: "${{ steps.has-error.outputs }}"
     steps:
       - name: "Check envs"
         run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"

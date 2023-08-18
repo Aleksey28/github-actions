@@ -27,7 +27,7 @@ jobs:
         run: echo "${{ toJson(job) }}"
 
       - name: Save result
-        if: matrix.test-group == 4
+        if: matrix.test-group == 2
         run: exit 1
 
       - run: echo "Test1 fromJSON - ${{fromJSON('true')}}"

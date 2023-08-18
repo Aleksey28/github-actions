@@ -51,7 +51,7 @@ jobs:
     needs: get-result
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Outputs - ${{ fromJSON(needs.get-result.outputs.has-error) }}"
+      - run: echo "Outputs - ${{ toJSON(needs.get-result.outputs.has-error) }}"
       - name: Exit with error
         if: ${{ needs.get-result.outputs.has-error }}
         run: exit 1

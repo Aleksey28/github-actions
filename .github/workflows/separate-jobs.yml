@@ -26,6 +26,9 @@ jobs:
       - name: "Check job"
         run: echo "${{ toJson(job) }}"
 
+      - name: "Check step"
+        run: echo "${{ steps.has-error && toJson(steps.has-error) }}"
+
       - name: Save result
         if: matrix.test-group == 2
         run: exit 1

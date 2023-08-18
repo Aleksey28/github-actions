@@ -18,16 +18,13 @@ jobs:
       TEST_FRAGMENTS_COUNT: 3
       CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
     outputs:
-      ${{ 3 }}has-error: "${{ toJSON(steps.has-error.outputs) }}"
+      has-error: "${{ steps.has-error.outputs.value }}"
     steps:
       - name: "Check envs"
         run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"
 
-      - name: "Check job"
-        run: echo "${{ toJson(job) }}"
-
       - name: Save result
-        if: matrix.test-group == 2
+        if: matrix.test-group == 4
         run: exit 1
 
       - run: echo "Test1 fromJSON - ${{fromJSON('true')}}"
@@ -42,16 +39,27 @@ jobs:
 
       - name: Has error
         id: has-error
+        if: failure() || cancelled()
+        shell: bash
+        run: echo "value=true" >> "$GITHUB_OUTPUT"
+
+      - name: Write status
         if: always()
         shell: bash
-        run: echo "value${{matrix.test-group}}=${{job.status}}" >> "$GITHUB_OUTPUT"
+        run: echo ${{job.status}} > test-group-${{ matrix.test-group }}.txt
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: result
+          path: test-group-${{ matrix.test-group }}.txt
 
   set-result-status:
     if: always()
     needs: get-result
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Outputs - ${{ needs.get-result.outputs.has-error }}"
+      - run: echo "Outputs - ${{ !needs.get-result.outputs.has-error && 'success' || 'failure' }}"
       - name: Exit with error
         if: ${{ needs.get-result.outputs.has-error }}
         run: exit 1

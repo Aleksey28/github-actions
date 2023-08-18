@@ -67,7 +67,7 @@ jobs:
         id: result
         shell: bash
 
-      - run: echo "Outputs - ${{ fromJson(steps.result.outputs) && 'success' || 'failure' }}"
+      - run: echo "Outputs - ${{ steps.result.outputs && 'success' || 'failure' }}"
       - name: Exit with error
-        if: ${{ fromJson(steps.result.outputs) }}
+        if: ${{ steps.result.outputs }}
         run: exit 1

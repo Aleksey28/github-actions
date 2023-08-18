@@ -67,7 +67,7 @@ jobs:
         id: result
         shell: bash
 
-      - run: echo "Outputs - ${{ steps.result.outputs.value && 'success' || 'failure' }}"
+      - run: echo "Outputs - ${{ steps.result.outputs.value }}"
       - name: Exit with error
         if: ${{ steps.result.outputs.value }}
         run: exit 1

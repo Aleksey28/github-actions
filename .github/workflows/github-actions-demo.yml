@@ -10,6 +10,8 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "Test1 fromJSON - ${{secrets.MY_TOKEN}}"
+      - run: echo "Test1 fromJSON - ${{fromJSON(secrets.MY_TOKEN)}}"
       - run: echo "Test1 fromJSON - ${{fromJSON('true')}}"
       - run: echo "Test2 fromJSON - ${{fromJSON('' || 'false')}}"
       - run: echo "Test1 expression - ${{fromJSON(env.statuses)[0]}}"

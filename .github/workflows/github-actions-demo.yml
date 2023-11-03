@@ -30,6 +30,7 @@ jobs:
       - name: echo "🍏 This job's status is ${{ job.status }}."
         run: |
           echo "### Job completed" >> $GITHUB_STEP_SUMMARY
+      - run: npm run test
   skipped-job:
     if: false
     runs-on: ubuntu-latest

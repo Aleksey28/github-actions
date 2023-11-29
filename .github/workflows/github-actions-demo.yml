@@ -10,6 +10,22 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+
+      - uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.MY_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+
+            try {
+              const { data }  = await github.rest.codeScanning.listAlertsForRepo({ owner, repo, state: 'open' });
+
+              return data;
+            } catch (e) {
+              console.log(e.message)
+              throw e;
+            }
+
       - run: echo "Test1 fromJSON - ${{secrets.MY_TOKEN}}"
       - run: echo "Test1 fromJSON - ${{fromJSON(secrets.MY_TOKEN)}}"
       - run: echo "Test1 fromJSON - ${{fromJSON('true')}}"

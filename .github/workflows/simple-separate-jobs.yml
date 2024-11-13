@@ -1,0 +1,38 @@
+name: Separate jobs (simple)
+run-name: ${{ github.actor }} is testing separate jobs
+on:
+    [pull_request]
+
+
+jobs:
+  get-result:
+    runs-on: ubuntu-latest
+    name: test number - ${{ matrix.test-group }}
+    continue-on-error: false
+    strategy:
+      matrix:
+        test-group: [1, 2, 3]
+    env:
+      TEST_FRAGMENTS_COUNT: 3
+      CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
+
+    steps:
+      - name: "Check envs"
+        run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"
+
+      - name: Save result
+        if: matrix.test-group == 2
+        run: exit 1
+
+      - uses: Aleksey28/testcafe-build-system/actions/save-matrix-status@main
+        if: always()
+        with: 
+          job-id: ${{ matrix.test-group }}
+
+  set-result-status:
+    needs: get-result
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Aleksey28/testcafe-build-system/actions/read-matrix-status@main
+        id: matrix-status
+      - run: ls -a

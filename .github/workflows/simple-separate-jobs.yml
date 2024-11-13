@@ -1,0 +1,48 @@
+name: Separate jobs (simple)
+run-name: ${{ github.actor }} is testing separate jobs
+on:
+    [workflow_dispatch, push, pull_request]
+
+
+jobs:
+  get-result:
+    runs-on: ubuntu-latest
+    name: test number - ${{ matrix.test-group }}
+    continue-on-error: true
+    strategy:
+      matrix:
+        test-group: [1, 2, 3]
+    env:
+      TEST_FRAGMENTS_COUNT: 3
+      CURRENT_TEST_FRAGMENT_NUMBER: ${{ matrix.test-group }}
+
+    steps:
+      - name: "Check envs"
+        run: echo "$CURRENT_TEST_FRAGMENT_NUMBER of $TEST_FRAGMENTS_COUNT"
+
+      - name: Save result
+        if: matrix.test-group == 2
+        run: exit 1
+
+      - run: echo "Test1 fromJSON - ${{fromJSON('true')}}"
+      - run: echo "Test2 fromJSON - ${{fromJSON('' || 'false')}}"
+      - run: echo "Test1 expression - ${{fromJSON(env.statuses)[0]}}"
+      - run: echo "Test2 expression - ${{fromJSON(env.statuses)[1]}}"
+      - run: echo "Test3 expression - ${{fromJSON(env.statuses)[true]}}"
+      - run: echo "Test4 expression - ${{fromJSON('["success", "failure"]')[false]}}"
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - uses: Aleksey28/testcafe-build-system/actions/save-matrix-status@main
+        if: always()
+        with: 
+          job-id: ${{ matrix.test-group }}
+
+  set-result-status:
+    needs: get-result
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Aleksey28/testcafe-build-system/actions/read-matrix-status@main
+        id: matrix-status
+      - run: ls -a

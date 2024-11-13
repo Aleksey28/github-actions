@@ -24,16 +24,6 @@ jobs:
         if: matrix.test-group == 2
         run: exit 1
 
-      - run: echo "Test1 fromJSON - ${{fromJSON('true')}}"
-      - run: echo "Test2 fromJSON - ${{fromJSON('' || 'false')}}"
-      - run: echo "Test1 expression - ${{fromJSON(env.statuses)[0]}}"
-      - run: echo "Test2 expression - ${{fromJSON(env.statuses)[1]}}"
-      - run: echo "Test3 expression - ${{fromJSON(env.statuses)[true]}}"
-      - run: echo "Test4 expression - ${{fromJSON('["success", "failure"]')[false]}}"
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-
       - uses: Aleksey28/testcafe-build-system/actions/save-matrix-status@main
         if: always()
         with: 

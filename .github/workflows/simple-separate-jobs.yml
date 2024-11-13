@@ -1,7 +1,7 @@
 name: Separate jobs (simple)
 run-name: ${{ github.actor }} is testing separate jobs
 on:
-    [workflow_dispatch, push, pull_request]
+    [pull_request]
 
 
 jobs:
